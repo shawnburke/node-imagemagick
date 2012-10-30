@@ -123,12 +123,24 @@ function parseIdentify(input) {
         props.push(prop);
         prop = prop[currentLine.split(':')[0].trim().toLowerCase()] = {};
       } else {
-        prop[comps[0].trim().toLowerCase()] = comps[1].trim()
+        var key = comps[0].trim();
+
+        var c = key.indexOf(':');
+        if (c === -1) {
+             prop[key.toLowerCase()] = comps[1].trim();
+        }
+        else {
+          var subKey = key.substr(0, c);
+          var obj = props[subKey] || {};
+          obj[key.substr(c+1).toLowerCase()] = comps[1].trim();
+          prop[subKey] = obj;
+        }
+       
       }
       prevIndent = indent;
     }
   }
-  return prop;
+  return prop || props[0];
 };
 
 exports.identify = function(pathOrArgs, callback) {
