@@ -130,9 +130,10 @@ function parseIdentify(input) {
              prop[key.toLowerCase()] = comps[1].trim();
         }
         else {
-          var subKey = key.substr(0, c);
-          var obj = props[subKey] || {};
-          obj[key.substr(c+1).toLowerCase()] = comps[1].trim();
+
+          var subKey = key.substr(0, c).toLowerCase();
+          var obj = prop[subKey] || {};
+          obj[key.substr(c+1)] = comps[1].trim();
           prop[subKey] = obj;
         }
        
